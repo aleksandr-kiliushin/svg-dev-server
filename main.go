@@ -18,7 +18,7 @@ type Page struct {
 	PageContent []SvgFile
 }
 
-var templates = template.Must(template.ParseFiles("explorer.html"))
+var templates = template.Must(template.ParseFiles("index.html"))
 
 func renderPage(path string) (*Page, error) {
 	files, err := ioutil.ReadDir("./files")
@@ -31,7 +31,14 @@ func renderPage(path string) (*Page, error) {
 
 	for i, f := range files {
 		svgFiles[i].Name = f.Name()
-		svgFiles[i].SvgCode = "<svg>" + f.Name() + "</svg>"
+
+		fileContent, err := ioutil.ReadFile("./files/" + f.Name())
+
+		if err != nil {
+			return nil, err
+		}
+
+		svgFiles[i].SvgCode = string(fileContent)
 	}
 
 	return &Page{Path: path, PageContent: svgFiles}, nil
@@ -60,7 +67,7 @@ func explorerHandler(w http.ResponseWriter, r *http.Request, path string) {
 	if err != nil {
 		return
 	}
-	renderTemplate(w, "explorer", renderedPage)
+	renderTemplate(w, "index", renderedPage)
 }
 
 func main() {
