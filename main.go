@@ -10,7 +10,7 @@ import (
 
 type SvgFile struct {
 	Name    string
-	SvgCode string
+	SvgCode template.HTML
 }
 
 type Page struct {
@@ -38,7 +38,7 @@ func renderPage(path string) (*Page, error) {
 			return nil, err
 		}
 
-		svgFiles[i].SvgCode = string(fileContent)
+		svgFiles[i].SvgCode = template.HTML(fileContent)
 	}
 
 	return &Page{Path: path, PageContent: svgFiles}, nil

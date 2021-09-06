@@ -10,8 +10,7 @@
 
       {{ with .PageContent }} {{ range . }}
       <h1>{{.Name}}</h1>
-      <code>{{.SvgCode}}</code>
-      {{ end }} {{ end }}
+      {{.SvgCode}} {{ end }} {{ end }}
     </div>
   </body>
 </html>
