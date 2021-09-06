@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Svg files</title>
+  </head>
+  <body>
+    <div>
+      <p>/files/{{.Path}}</p>
+
+      {{ with .PageContent }} {{ range . }}
+      <h1>{{.Name}}</h1>
+      <code>{{.SvgCode}}</code>
+      {{ end }} {{ end }}
+    </div>
+  </body>
+</html>
