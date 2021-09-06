@@ -72,6 +72,7 @@ func explorerHandler(w http.ResponseWriter, r *http.Request, path string) {
 
 func main() {
 	http.HandleFunc("/files/", makeHandler(explorerHandler))
+	http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir(""))))
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

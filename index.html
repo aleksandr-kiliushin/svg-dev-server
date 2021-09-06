@@ -2,15 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link href="/index.css" rel="stylesheet" />
     <title>Svg files</title>
   </head>
   <body>
-    <div>
-      <p>/files/{{.Path}}</p>
+    <h1>/files/{{.Path}}</h1>
 
-      {{ with .PageContent }} {{ range . }}
-      <h1>{{.Name}}</h1>
-      {{.SvgCode}} {{ end }} {{ end }}
-    </div>
+    {{ with .PageContent }} {{ range . }}
+    <h1>{{.Name}}</h1>
+    {{.SvgCode}} {{ end }} {{ end }}
   </body>
 </html>
