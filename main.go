@@ -8,14 +8,19 @@ import (
 	"regexp"
 )
 
+type Folder struct {
+	Name string
+}
+
 type SvgFile struct {
+	Content template.HTML
 	Name    string
-	SvgCode template.HTML
 }
 
 type Page struct {
-	Path        string
-	PageContent []SvgFile
+	Folders  []Folder
+	Path     string
+	SvgFiles []SvgFile
 }
 
 var templates = template.Must(template.ParseFiles("index.html"))
@@ -27,21 +32,24 @@ func renderPage(path string) (*Page, error) {
 		log.Fatal(err)
 	}
 
-	svgFiles := make([]SvgFile, len(files))
+	folders := []Folder{}
+	svgFiles := []SvgFile{}
 
-	for i, f := range files {
-		svgFiles[i].Name = f.Name()
+	for _, file := range files {
+		if file.IsDir() {
+			folders = append(folders, Folder{Name: file.Name()})
+		} else {
+			content, err := ioutil.ReadFile("./files/" + file.Name())
 
-		fileContent, err := ioutil.ReadFile("./files/" + f.Name())
+			if err != nil {
+				return nil, err
+			}
 
-		if err != nil {
-			return nil, err
+			svgFiles = append(svgFiles, SvgFile{Content: template.HTML(content), Name: file.Name()})
 		}
-
-		svgFiles[i].SvgCode = template.HTML(fileContent)
 	}
 
-	return &Page{Path: path, PageContent: svgFiles}, nil
+	return &Page{Folders: folders, Path: path, SvgFiles: svgFiles}, nil
 }
 
 func renderTemplate(w http.ResponseWriter, tmpl string, page *Page) {
@@ -70,8 +78,13 @@ func explorerHandler(w http.ResponseWriter, r *http.Request, path string) {
 	renderTemplate(w, "index", renderedPage)
 }
 
+func heheHandler(w http.ResponseWriter, r *http.Request, path string) {
+	http.Error(w, "error ;) hhe", http.StatusInternalServerError)
+}
+
 func main() {
 	http.HandleFunc("/files/", makeHandler(explorerHandler))
+	http.Handle("/hehe", makeHandler(heheHandler))
 	http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir(""))))
 
 	log.Fatal(http.ListenAndServe(":8080", nil))

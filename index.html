@@ -8,8 +8,13 @@
   <body>
     <h1>/files/{{.Path}}</h1>
 
-    {{ with .PageContent }} {{ range . }}
-    <h1>{{.Name}}</h1>
-    {{.SvgCode}} {{ end }} {{ end }}
+    {{ with .Folders }} {{ range . }}
+    <a href="/hehe">
+      <img src="/folder-r.svg" alt="folder {{.Name}}" />
+      <p>{{.Name}}</p>
+    </a>
+    {{ end }} {{ end }} {{ with .SvgFiles }} {{ range . }} {{.Content}}
+    <p>{{.Name}}</p>
+    {{ end }} {{ end }}
   </body>
 </html>
