@@ -10,16 +10,18 @@
 
     <div class="grid">
       {{range .Folders}}
-      <a href="/files/{{$.Path}}/{{.Name}}">
-        <img src="/folder-r.svg" alt="folder {{.Name}}" />
+      <a class="page-content-item" href="/files/{{$.Path}}/{{.Name}}">
+        <div>
+          <img src="/folder-r.svg" alt="folder {{.Name}}" />
+        </div>
         <p>{{.Name}}</p>
       </a>
       {{ end }} {{ range .SvgFiles }}
 
-      <a href="/files/{{$.Path}}/{{.Name}}">
-        {{.Content}}
+      <div class="page-content-item">
+        <div>{{.Content}}</div>
         <p>{{.Name}}</p>
-      </a>
+      </div>
       {{ end }}
     </div>
   </body>

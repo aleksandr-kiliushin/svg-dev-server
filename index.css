@@ -1,5 +1,29 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-template-rows: repeat(110px);
   grid-gap: 1em;
+}
+
+.page-content-item {
+  display: grid;
+  background-color: lightgray;
+  border: 1px solid black;
+}
+
+.page-content-item svg,
+.page-content-item img {
+  height: 100%;
+  width: 100%;
+  border-bottom: 1px solid black;
+}
+
+.page-content-item img {
+  background-color: gray;
+}
+
+.page-content-item p {
+  margin: 0;
+  font-size: 1.3rem;
+  text-align: center;
 }
